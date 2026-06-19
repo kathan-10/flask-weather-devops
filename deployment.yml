@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-weather
+spec:
+  replicas: 2
+  selector:
+     matchLabels:
+       app: flask-weather
+  template:
+    metadata:
+      labels:
+        app: flask-weather
+    spec:
+        containers:
+        - name: flask-weather
+          image: kathan1205/flask-weather
+          ports:
+          - containerPort: 3000
+  

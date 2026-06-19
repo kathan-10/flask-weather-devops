@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: weather-service
+
+spec:
+  selector:
+    app: flask-weather
+
+  ports:
+    - port: 3000
+      targetPort: 3000
+      
+  type: NodePort
