@@ -5,7 +5,6 @@ pipeline {
     environment {
 
         IMAGE_NAME = "kathan1205/flask-weather"
-        IMAGE_TAG = "${BUILD_NUMBER}"
     }
 
     stages {
@@ -13,15 +12,17 @@ pipeline {
         stage('Clone Code') {
 
             steps {
+
                 git branch: 'main',
-                url: 'YOUR_GITHUB_REPO'
+                url: 'https://github.com/kathan-10/flask-weather.git'
             }
         }
 
         stage('Build Docker Image') {
 
             steps {
-                sh 'docker build -t $IMAGE_NAME:$IMAGE_TAG .'
+
+                sh 'docker build -t $IMAGE_NAME:latest .'
             }
         }
 
@@ -38,19 +39,9 @@ pipeline {
                     sh '''
                     echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
 
-                    docker push $IMAGE_NAME:$IMAGE_TAG
+                    docker push $IMAGE_NAME:latest
                     '''
                 }
-            }
-        }
-
-        stage('Update Deployment') {
-
-            steps {
-
-                sh '''
-                sed -i "s|image:.*|image: $IMAGE_NAME:$IMAGE_TAG|g" deployment.yaml
-                '''
             }
         }
 
