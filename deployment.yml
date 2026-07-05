@@ -1,21 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
+
 metadata:
   name: flask-weather
+
 spec:
-  replicas: 2 
+  replicas: 2
+
   selector:
-     matchLabels:
-       app: flask-weather
+    matchLabels:
+      app: flask-weather
+
   template:
     metadata:
       labels:
         app: flask-weather
+
     spec:
-        containers:
+      containers:
         - name: flask-weather
           image: kathan1205/flask-weather:1
           imagePullPolicy: Always
+
           ports:
-          - containerPort: 3000
-  
+            - containerPort: 3000
+
+          env:
+            - name: WEATHER_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: weather-secret
+                  key: WEATHER_API_KEY
