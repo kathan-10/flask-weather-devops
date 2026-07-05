@@ -1,9 +1,13 @@
 from flask import Flask,request,render_template
 import requests
-
+import os
+from dotenv import load_dotenv
+load_dotenv()
 app=Flask(__name__)
 app.secret_key = "123"
 
+API_KEY = os.getenv("WEATHER_API_KEY")
+print(API_KEY)
 @app.route("/")
 def index():
     return render_template("weather.html")
@@ -13,7 +17,7 @@ def city():
     try:
         city=request.form['city']
         print(city)
-        api = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=6dac3572454ea57979abfe76ad2d6216"
+        api = f"https://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid={API_KEY}"
         respons = requests.get(api)
         data = respons.json()
         print(data)
