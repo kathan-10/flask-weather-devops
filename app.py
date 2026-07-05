@@ -7,7 +7,6 @@ app=Flask(__name__)
 app.secret_key = "123"
 
 API_KEY = os.getenv("WEATHER_API_KEY")
-print(API_KEY)
 @app.route("/")
 def index():
     return render_template("weather.html")
